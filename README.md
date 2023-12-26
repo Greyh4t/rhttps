@@ -11,8 +11,8 @@ chrome 浏览器内置翻译已经很久不能用了，常规的改 hosts 需要
 2. 修改 `C:\Windows\System32\drivers\etc\hosts`, 增加如下内容
 
 ```
-192.168.50.113 translate.googleapis.com
-192.168.50.113 translate.google.com
+127.0.0.1 translate.googleapis.com
+127.0.0.1 translate.google.com
 ```
 
 3. chrome 打开网页，内置翻译功能就能用了
