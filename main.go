@@ -17,11 +17,13 @@ import (
 var (
 	listenAddr string
 	proxyURL   string
+	reusePort  bool
 )
 
 func init() {
-	flag.StringVar(&listenAddr, "listen", "127.0.0.1:443", "listening address")
+	flag.StringVar(&listenAddr, "listen", "127.99.99.99:443", "listening address")
 	flag.StringVar(&proxyURL, "proxy", "socks5://127.0.0.1:1080", "proxy")
+	flag.BoolVar(&reusePort, "reuseport", false, "reuse port")
 	flag.Parse()
 }
 
@@ -34,7 +36,7 @@ func main() {
 	p := &Proxy{
 		proxy: u,
 	}
-	if err := p.ListenAndServe("tcp", listenAddr); err != nil {
+	if err := p.ListenAndServe("tcp", listenAddr, false); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -44,8 +46,8 @@ type Proxy struct {
 	proxy *url.URL
 }
 
-func (p *Proxy) ListenAndServe(network, addr string) error {
-	l, err := net.Listen(network, addr)
+func (p *Proxy) ListenAndServe(network, addr string, reusePort bool) error {
+	l, err := Listen(network, addr, reusePort)
 	if err != nil {
 		return fmt.Errorf("create listener error: %w", err)
 	}
