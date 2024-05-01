@@ -36,7 +36,7 @@ func main() {
 	p := &Proxy{
 		proxy: u,
 	}
-	if err := p.ListenAndServe("tcp", listenAddr, false); err != nil {
+	if err := p.ListenAndServe("tcp", listenAddr, reusePort); err != nil {
 		log.Fatal(err)
 	}
 }
